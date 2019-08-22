@@ -23,6 +23,10 @@ let constant = pipeNorth.height + gap;
 let bX = 10;
 let bY = -20;
 
+let pipeCount = 0
+
+let highScore = localStorage.getItem('highScore') || 0;
+
 let gravity = 2;
 document.addEventListener("keydown", function (e) {
     if (e.keyCode === 32) {
@@ -70,8 +74,15 @@ function draw() {
         }
         if (mortal === true) {
             if (bX + bird.width >= pipe[i].x && bX <= pipe[i].x + pipeNorth.width && (bY <= pipe[i].y + pipeNorth.height || bY + bird.height >= pipe[i].y + constant) || bY + 25 > cvs.height - fg.height) {
+                if (pipeCount > highScore){
+                    highScore = parseInt(pipeCount);
+                    localStorage.setItem('highScore', highScore);
+                }
                 location.reload();
             }
+        }
+        if(bX === pipe[i].x){
+            document.getElementById("counter").innerText = pipeCount += 1;
         }
 
     }
@@ -80,21 +91,31 @@ function draw() {
 
     ctx.drawImage(bird, bX, bY);
     if (gravity < 3) {
-        gravity += 0.02
+        gravity += 0.03
     }
     bY += gravity;
-    console.log(gravity)
+  
     if(running === true){
     requestAnimationFrame(draw);
     }
 }
 
+function Pause(){
+    running = !running
+    if(running === true){
+        draw()
+        document.getElementById("pause").innerText = "Pause";
+        document.getElementById("pause").style.background ='#73bf2e';
+    }
+    else if(running === false){
+        document.getElementById("pause").innerText = "Play";
+        document.getElementById("pause").style.background ='#FF0000';
+    }
+}
+
 document.addEventListener("keydown", function (e) {
     if (e.keyCode === 80) {
-        running = !running
-        if(running === true){
-            draw()
-        }
+        Pause()
     }
 })
 document.addEventListener("keydown", function (e) {
@@ -106,6 +127,9 @@ document.addEventListener("keydown", function (e) {
     if (e.keyCode === 49){ 
         mortal = !mortal
     }
+})
+document.getElementById("pause").addEventListener("click", function(){
+    Pause()
 })
 
 draw();
