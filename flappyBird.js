@@ -28,6 +28,7 @@ let pipeCount = 0
 let highScore = localStorage.getItem('highScore') || 0;
 
 let gravity = 2;
+
 document.addEventListener("keydown", function (e) {
     if (e.keyCode === 32) {
         moveUp()
@@ -55,7 +56,6 @@ function draw() {
 
     ctx.drawImage(bg, 0, 0);
 
-
     for (let i = 0; i < pipe.length; i++) {
         if(pipes === false){
             break;
@@ -80,11 +80,11 @@ function draw() {
                 }
                 location.reload();
             }
-        }
+        
         if(bX === pipe[i].x){
             document.getElementById("counter").innerText = pipeCount += 1;
         }
-
+        }
     }
 
     ctx.drawImage(fg, 0, cvs.height - fg.height);
@@ -94,7 +94,11 @@ function draw() {
         gravity += 0.03
     }
     bY += gravity;
-  
+    
+    if(bY + 23 > cvs.height - fg.height){
+        bY-=3
+    }
+
     if(running === true){
     requestAnimationFrame(draw);
     }
@@ -133,3 +137,4 @@ document.getElementById("pause").addEventListener("click", function(){
 })
 
 draw();
+
