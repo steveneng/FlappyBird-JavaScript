@@ -22,7 +22,7 @@ let is1Dead = false;
 let is2Dead = false;
 
 let mortal = true;
-let running = true;
+let running = false;
 let pipes = true;
 
 gap = 350;
@@ -81,8 +81,8 @@ pipe[0] = {
 };
 
 function draw() {
-    bird.src = p;
-    bird2.src = p2;
+  bird.src = p;
+  bird2.src = p2;
   ctx.drawImage(bg, 0, 0);
 
   for (let i = 0; i < pipe.length; i++) {
@@ -91,11 +91,11 @@ function draw() {
     }
     ctx.drawImage(pipeNorth, pipe[i].x, pipe[i].y);
     ctx.drawImage(pipeSouth, pipe[i].x, pipe[i].y + constant);
-    if(choose === false || choose2 === false){
-        break;
+    if (choose === false || choose2 === false) {
+      break;
     }
-    else{
-    pipe[i].x--;
+    else {
+      pipe[i].x--;
     }
 
     if (pipe[i].x == 125) {
@@ -142,9 +142,9 @@ function draw() {
   bY += gravity;
   b2Y += gravity;
 
-  if(choose === false || choose2 === false){
+  if (choose === false || choose2 === false) {
     gravity = 0
-}
+  }
 
   if (bY + 23 > cvs.height - fg.height) {
     bY -= 3;
@@ -160,18 +160,22 @@ function draw() {
 
 function Pause() {
   let button = document.getElementById("pause");
-  running = !running;
-  if (running === true) {
-    draw();
-    button.innerText = "Pause";
-    button.style.background = "#73bf2e";
-  } else if (running === false) {
-    button.innerText = "Play";
-    button.style.background = "#FF0000";
+  if (choose === true || choose2 === true) {
+    document.getElementById("selectBlock").style.visibility = "hidden";
+    document.querySelector(".character_select").style.visibility = "hidden";
+    running = !running;
+    if (running === true) {
+      draw();
+      button.innerText = "Pause";
+      button.style.background = "#73bf2e";
+    } else if (running === false) {
+      button.innerText = "Play";
+      button.style.background = "#FF0000";
+    }
   }
 }
 
-document.addEventListener("keydown", function(e) {
+document.addEventListener("keydown", function (e) {
   // let xb = {
   //     38:moveUp2(),
   //     80:Pause()
@@ -193,20 +197,20 @@ document.addEventListener("keydown", function(e) {
 });
 
 function moveUp() {
-  let loop = setInterval(function() {
+  let loop = setInterval(function () {
     bY -= 2;
   }, 1);
-  setTimeout(function() {
+  setTimeout(function () {
     clearInterval(loop);
   }, 120);
   gravity = 2;
 }
 
 function moveUp2() {
-  let loop = setInterval(function() {
+  let loop = setInterval(function () {
     b2Y -= 2;
   }, 1);
-  setTimeout(function() {
+  setTimeout(function () {
     clearInterval(loop);
   }, 120);
   gravity = 2;
@@ -222,25 +226,29 @@ function moveUp2() {
 //         mortal = !mortal
 //     }
 // })
-document.getElementById("pause").addEventListener("click", function() {
+document.getElementById("pause").addEventListener("click", function () {
   Pause();
 });
 
-document.getElementById("characters").addEventListener("click", function(e) {
+document.getElementById("characters").addEventListener("click", function (e) {
   console.clear();
   console.log(e.target.alt);
   p = e.target.alt
   choose = true
   console.log(p)
+  e.target.classList.add("addBorder");
 });
 
-document.getElementById("characters1").addEventListener("click", function(e) {
-    console.clear();
-    console.log(e.target.alt);
-    p2 = e.target.alt
-    choose2 = true
-    console.log(p2)
-  });
+document.getElementById("characters1").addEventListener("click", function (e) {
+  console.clear();
+  console.log(e.target.alt);
+  p2 = e.target.alt
+  choose2 = true
+  console.log(p2)
+  e.target.classList.add("addBorder");
+});
+
+document.
 // console.log(choose);
 // if (choose) {
 //   draw();
